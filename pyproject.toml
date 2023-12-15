@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=59.6.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name="polars_pc"
+version="0.0.1"
+authors=[
+    { name="Dean MacGregor", email="powertrading121@gmail.com"}
+]
+description="registers pyarrow-compute function as expressions to pc namespace"
+readme = "README.md"
+requires-python = ">=3.7"
