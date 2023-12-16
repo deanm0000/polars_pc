@@ -114,10 +114,22 @@ class PC:
     def make_inner_func(func_str):
         pc_func = getattr(pc, func_str)
 
-        def new_func(self):
-            return self._expr.map_batches(
-                lambda x: (pl.from_arrow(pc_func(x.to_arrow())))
-            )
+        def new_func(self, over=False):
+            # Because of the way map_elements and map_batches works and (doesn't) work
+            # with over, the following, at least, prevents unknowingly running map_batches
+            # with an over that doesn't work. map_elements calls map_batches anyway so by only
+            # using map_elements it allows over to work although requires a over parameter to
+            # be true or false
+            if over == False:
+                return (
+                    self._expr.implode()
+                    .map_elements(lambda x: (pl.from_arrow(pc_func(x.to_arrow()))))
+                    .explode()
+                )
+            else:
+                return self._expr.map_elements(
+                    lambda x: (pl.from_arrow(pc_func(x.to_arrow())))
+                )
 
         return new_func
 
