@@ -11,3 +11,22 @@ Methods which take two inputs are statically loaded, right now only `index_in` i
 ```
 df.with_columns(c=pl.col('a').pc.index_in('b'))
 ```
+
+## Install
+
+```
+pip install polars-pc
+```
+
+## Usage
+
+```
+import polars_pc
+import polars as pl
+df=pl.DataFrame({
+    'a':[1,2,2,3,4],
+    'b':[1,1,1,3,3]
+})
+df.with_columns(c=pl.col('a').pc.cumulative_sum())
+df.with_columns(c=pl.col('a').pc.index_in('b'))
+```
